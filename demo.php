@@ -54,7 +54,7 @@ class DemoEchoHandler extends WebSocketUriHandler{
 	}
 
 	public function getFile(){
-		$handle = @fopen("/tmp/joyce2.txt", "r");
+		$handle = @fopen("/tmp/sendme.txt", "r");
 		if ($handle) {
 		    while (($buffer = fgets($handle, 4096)) !== false) {
 		        // echo $buffer;
