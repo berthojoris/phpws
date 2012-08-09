@@ -16,7 +16,7 @@ based on code from [phpws](http://code.google.com/p/phpws/)
 
 ### Prepration
 - You can put the php files under /var/www/html in linux or somewhere in htdocs if running on windows
-- and create send me in c:\tmp\sendme.txt or /tmp/sendme.txt with the correct read permissions
+- and create the text file to be streamed called *sendme.txt* in c:\tmp\sendme.txt or /tmp/sendme.txt with the correct read permissions
 
 
 ## Running the server
