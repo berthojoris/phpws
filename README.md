@@ -1,11 +1,11 @@
 # File Streamer (server & client) Sample
 
 ### Based on
-based on code from [phpws](http://code.google.com/p/phpws/)
+based on code from [phpws](http://code.google.com/p/phpws/), which is a php based websocket library
 
 ### Requirements
 - apache & php
-- ability to listen on port 12345
+- ability to listen on port 12345, used by websocket
 - a web browser
 - on windows, make sure that the hosts file contains the line with _127.0.0.1 loalhost_
 
