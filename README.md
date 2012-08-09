@@ -20,7 +20,9 @@ based on code from [phpws](http://code.google.com/p/phpws/)
 
 
 ## Running the server
-- go to the directory where the php files are and run php -q demo.php
+- go to the directory where the php files are and run 
+
+	php -q demo.php
 
 
 ## Running the client
