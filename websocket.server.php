@@ -284,6 +284,7 @@ class WebSocketServer implements WebSocketObserver{
 	public function addUriHandler($script, IWebSocketUriHandler $handler){
 		$this->uriHandlers[$script] = $handler;
 		$handler->setServer($this);
+		return $this->uriHandlers[$script];
 	}
 
 

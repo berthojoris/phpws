@@ -12,8 +12,20 @@ require_once("websocket.server.php");
  *
  */
 class DemoEchoHandler extends WebSocketUriHandler{
+	protected $byte_counter = 0;
+	protected $lines = NULL;
+	protected $last_line =0;
+	protected $total_lines = 0;
+
+
 	public function onMessage(IWebSocketConnection $user, IWebSocketMessage $msg){
 		$this->say("[ECHO] ".strlen($msg->getData()). " bytes");
+		if ($msg->getData() != "more") {
+			$msg->setData("Please type 'more' to receive a chunk of the file");
+		}else{
+			$str = $msg->getData(). " command received. Here's a chunk of file: \r\n".$this->getLine();
+			$msg->setData($str);
+		}
 		// Echo
 		$user->sendMessage($msg);
 	}
@@ -23,6 +35,37 @@ class DemoEchoHandler extends WebSocketUriHandler{
 
 		$frame = WebSocketFrame::create(WebSocketOpcode::PongFrame);
 		$user->sendFrame($frame);
+	}
+	
+	public function getLine(){
+		# if the files has not been read yet
+		if(is_null($this->lines)){
+			$this->lines = array();
+			$this->getFile();
+		}
+		if($this->last_line< $this->total_lines){
+			# return a line from $lines
+			$line = $this->lines[$this->last_line];
+			$this->last_line+=1;
+			return $line;
+		}else{
+			return "sorry no more.";
+		}
+	}
+
+	public function getFile(){
+		$handle = @fopen("/tmp/joyce2.txt", "r");
+		if ($handle) {
+		    while (($buffer = fgets($handle, 4096)) !== false) {
+		        // echo $buffer;
+		    	array_push($this->lines,$buffer);
+		    }
+		    if (!feof($handle)) {
+		        echo "Error: unexpected fgets() fail\n";
+		    }
+		    $this->total_lines = count($this->lines);
+		    fclose($handle);
+		}
 	}
 }
 
@@ -36,20 +79,23 @@ class DemoEchoHandler extends WebSocketUriHandler{
 class DemoSocketServer implements IWebSocketServerObserver{
 	protected $debug = true;
 	protected $server;
+	protected $uriHandler;
 
 	public function __construct(){
 		$this->server = new WebSocketServer("tcp://0.0.0.0:12345", 'superdupersecretkey');
 		$this->server->addObserver($this);
 
-		$this->server->addUriHandler("echo", new DemoEchoHandler());
+		$this->uriHandler = $this->server->addUriHandler("echo", new DemoEchoHandler());
 	}
 
 	public function onConnect(IWebSocketConnection $user){
-		$this->say("[DEMO] {$user->getId()} connected");
+		$this->say("[DEMO] {$user->getId()} connected, yay");
 	}
 
 	public function onMessage(IWebSocketConnection $user, IWebSocketMessage $msg){
-		//$this->say("[DEMO] {$user->getId()} says '{$msg->getData()}'");
+		$msg->setData( "Logging this: ".$msg->getData());
+		$this->say("[DEMO] {$user->getId()} says '{$msg->getData()}'.  ");
+		
 	}
 
 	public function onDisconnect(IWebSocketConnection $user){
@@ -64,7 +110,7 @@ class DemoSocketServer implements IWebSocketServerObserver{
 	}
 
 	public function say($msg){
-		echo "$msg \r\n";
+		echo "$msg  \r\n";
 	}
 
 	public function run(){
