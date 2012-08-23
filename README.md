@@ -12,7 +12,7 @@ based on code from [phpws](http://code.google.com/p/phpws/), which is a php base
 ### Tested on
 - Windows 7
 - with latest [Xampp for Windows](http://www.apachefriends.org/en/xampp-windows.html), a bundled php/apache package for windows, comes w/ php 5.4
-- Chrome 22, which is the latest
+- Chrome 22, which is the latest as of time of writing.
 
 ### Prepration
 - You can put the php files under /var/www/html in linux or somewhere in htdocs if running on windows
