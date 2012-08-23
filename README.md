@@ -11,7 +11,7 @@ based on code from [phpws](http://code.google.com/p/phpws/), which is a php base
 
 ### Tested on
 - Windows 7
-- with latest [Xampp for Windows](http://www.apachefriends.org/en/xampp-windows.html), a bundled php/apache package for windows, with php 5.4
+- with latest [Xampp for Windows](http://www.apachefriends.org/en/xampp-windows.html), a bundled php/apache package for windows, comes w/ php 5.4
 - Chrome 22, which is the latest
 
 ### Prepration
